@@ -19,27 +19,56 @@
   </head>
 
   <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="index.html">Sales Page</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="index.html"
+              >Home <span class="sr-only">(current)</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="createproduct.html">Backoffice</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
     <form class="container">
       <div class="row justify-content-center">
         <div class="col-md-8 mt-5">
           <h1>Create product</h1>
           <form onsubmit="onFormSubmit(event)" id="event-form">
             <div class="form-group">
-              <label for="event-name">Product Name</label>
-              <input type="text" class="form-control" id="event-name" />
+              <label for="product-name">Product Name</label>
+              <input type="text" class="form-control" id="product-name" />
             </div>
             <div class="form-group">
-              <label for="event-price">Product Price</label>
-              <input type="number" class="form-control" id="event-price" />
+              <label for="product-price">Product Price</label>
+              <input type="number" class="form-control" id="product-price" />
             </div>
             <div class="form-group">
-              <label for="event-description">Product Description</label>
-              <textarea class="form-control" id="event-description"></textarea>
+              <label for="product-description">Product Description</label>
+              <textarea
+                class="form-control"
+                id="product-description"
+              ></textarea>
             </div>
 
             <div class="form-group">
-              <label for="event-img">Upload image</label>
-              <input type="number" class="form-control" id="event-img" />
+              <label for="product-img">image</label>
+              <input type="url" class="form-control" id="product-img" />
             </div>
             <button id="submit-button" type="submit" class="btn btn-primary">
               Create New Product
@@ -70,22 +99,22 @@
           submitButton.classList.remove("btn-primary");
           submitButton.classList.add("btn-success");
 
-          document.querySelector("#event-name").value = product.name;
-          document.querySelector("#event-description").value =
+          document.querySelector("#product-name").value = product.name;
+          document.querySelector("#product-description").value =
             product.description;
-          document.querySelector("#event-price").value = product.price;
+          document.querySelector("#product-price").value = product.price;
 
-          document.querySelector("#event-img").value = product.imageUrl;
+          document.querySelector("#product-img").value = product.imageUrl;
         }
       };
       async function onFormSubmit(event) {
-        event.preventDefault();
+        product.preventDefault();
 
         const newEvent = {
-          name: document.querySelector("#event-name").value,
-          description: document.querySelector("#event-description").value,
-          price: document.querySelector("#event-price").value,
-          time: document.querySelector("#event-img").value,
+          name: document.querySelector("#product-name").value,
+          description: document.querySelector("#product-description").value,
+          price: document.querySelector("#product-price").value,
+          time: document.querySelector("#product-img").value,
         };
         console.log(newEvent);
 
@@ -94,6 +123,8 @@
           body: JSON.stringify(newEvent),
           headers: {
             "Content-Type": "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDgxN2M1ZWU3ODE4NzAwMTVjMjY3YTgiLCJpYXQiOjE2NjgwODY1NzQsImV4cCI6MTY2OTI5NjE3NH0.De_M73adDP7xkHGf7dPGT2OuIzJWSZIBPPuczezr6Ms",
           },
         };
         console.log(options);

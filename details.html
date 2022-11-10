@@ -11,13 +11,53 @@
       integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
       crossorigin="anonymous"
     />
+    <style>
+      #main {
+        margin-inline: 20%;
+      }
+      body {
+        text-align: center;
+      }
+      button {
+        margin-bottom: 10vh;
+      }
+      .container {
+        margin-top: 2vh;
+      }
+    </style>
   </head>
   <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="index.html">Sales Page</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="index.html"
+              >Home <span class="sr-only">(current)</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="createproduct.html">Backoffice</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
     <div id="main"></div>
     <button type="button" class="btn btn-success" onclick="edit()">
       Edit Product
     </button>
-    <button type="button" class="btn btn-danger" onclick="Delete()">
+    <button type="button" class="btn btn-danger" onclick="delEte()">
       Delete Product
     </button>
     <script>
@@ -40,24 +80,24 @@
         return products;
       }
 
-      function renderProducts(listOfproducts) {
+      function renderProducts(products) {
         let total = document.querySelector("#main");
         console.log(total);
         total.innerHTML = `<div class="card row px-3 align-items-center">
-        <img src="${listOfproducts.imageUrl}" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">1 - ${listOfproducts.name}</h5>
-          <p class="card-text">Description of the product: ${listOfproducts.description}</p>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">Price: ${listOfproducts.price}€</li>
-          <li class="list-group-item">Order: ${listOfproducts._id}</li>
-          <li class="list-group-item">A third item</li>
-        </ul>
-        <div class="card-body row justify-content-between">
-          <a class"col" href="details.html?productId=${listOfproducts._id}">VIEW DETAILS</a>
-        </div>
-      </div>`;
+              <img src="${products.imageUrl}" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">1 - ${products.name}</h5>
+                <p class="card-text">Description of the product: ${products.description}</p>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Price: ${products.price}€</li>
+                <li class="list-group-item">Order: ${products._id}</li>
+                <li class="list-group-item">A third item</li>
+              </ul>
+              <div class="card-body row justify-content-between">
+                <a class"col" href="details.html?productId=${products._id}">VIEW DETAILS</a>
+              </div>
+            </div>`;
       }
 
       window.onload = async () => {
@@ -67,6 +107,30 @@
 
       function edit() {
         window.location.assign(`createproduct.html?productId=${productId}`);
+      }
+      async function delEte() {
+        try {
+          if (confirm("Do you really want to delete this product?")) {
+            const options = { method: "DELETE" };
+            const response = await fetch(
+              `https://striveschool-api.herokuapp.com/api/product/${productId}`,
+              {
+                headers: {
+                  Authorization:
+                    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDgxN2M1ZWU3ODE4NzAwMTVjMjY3YTgiLCJpYXQiOjE2NjgwODY1NzQsImV4cCI6MTY2OTI5NjE3NH0.De_M73adDP7xkHGf7dPGT2OuIzJWSZIBPPuczezr6Ms",
+                },
+              },
+              options
+            );
+            if (response.ok) {
+              window.location.assign("index.html");
+            } else {
+              alert("Error while deleting!");
+            }
+          }
+        } catch (error) {
+          alert(`Some erorr occured: ${error}`);
+        }
       }
     </script>
     <script
